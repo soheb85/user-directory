@@ -6,17 +6,27 @@ import UserCard from "./UserCard";
 const UserList = () => {
   const [users, setUsers] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
+    setLoading(true);
+    setError(null);
     axios
       .get("https://jsonplaceholder.typicode.com/users")
-      .then((res) => setUsers(res.data))
-      .catch((err) => console.error("Failed to fetch users", err));
+      .then((res) => {
+        setUsers(res.data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        setError("Unable to load user cards. Try again.");
+        setLoading(false);
+      });
   }, []);
 
   //Same for card logic but use and taken all details like first
-  //taking all user from api and filter and checkig search input box char or string in the name of all users then filter and return and we are 
-  // passing this filteruser to UserCard component as a props and then it displaying the user 
+  //taking all user from api and filter and checkig search input box char or string in the name of all users then filter and return and we are
+  // passing this filteruser to UserCard component as a props and then it displaying the user
   const filteredUsers = users.filter((user) =>
     user.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
@@ -35,12 +45,25 @@ const UserList = () => {
                      focus:ring-blue-500 shadow-sm hover:shadow-md transition-all"
         />
       </div>
+      {loading && (
+        <div className="text-center text-green-600 py-4 font-medium">
+          Loading cards...
+        </div>
+      )}
+
+      {error && (
+        <div className="text-center text-red-500 py-4 font-medium">{error}</div>
+      )}
 
       <div className="flex flex-wrap gap-4 justify-center">
         {filteredUsers.length > 0 ? (
           filteredUsers.map((user) => <UserCard key={user.id} user={user} />)
         ) : (
-          <p className="text-red-500">No matching users found.</p>
+          <div>
+            {error===null?(
+                <p className="text-red-500">No matching users found.</p>
+            ):("")}
+          </div>
         )}
       </div>
     </div>

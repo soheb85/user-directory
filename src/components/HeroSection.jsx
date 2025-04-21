@@ -5,13 +5,23 @@ import { FaSearch } from "react-icons/fa";
 const HeroSection = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [users, setUsers] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   //UseEffect using with axios library to fetch the data from the api make easier.
   useEffect(() => {
+    setLoading(true);
+    setError(null);
     axios
       .get("https://jsonplaceholder.typicode.com/users")
-      .then((res) => setUsers(res.data))
-      .catch((err) => console.error("Error to Fetch the Details: " + err));
+      .then((res) => {
+        setUsers(res.data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        setError("Failed to fetch user data. Please try again later.");
+        setLoading(false);
+      });
   }, []);
   // filter user by name first we take user array then using filter method converting name in lower case and then using include method we checking for the character or string is present in any name
   const filteredUsers = users.filter((user) =>
@@ -41,6 +51,17 @@ const HeroSection = () => {
       <div className="container mx-auto px-2 sm:px-4 py-4 sm:py-8">
         <div className="border rounded-xl shadow-sm overflow-x-auto">
           <table className="min-w-full divide-y divide-gray-200 text-xs sm:text-sm">
+            {loading && (
+              <td colSpan="6" className="text-center md:text-xl text-lg text-green-500 py-4">
+              Loading Users.....
+            </td>
+            )}
+
+            {error && (
+              <td colSpan="6" className="text-center text-red-500 py-4">
+              {error}
+            </td>
+            )}
             <thead className="bg-gray-50 text-left text-gray-600 uppercase font-semibold">
               <tr>
                 <th className="px-2 sm:px-4 py-2 sm:py-3">ID</th>
@@ -73,9 +94,9 @@ const HeroSection = () => {
                 ))
               ) : (
                 <tr>
-                  <td colSpan="6" className="text-center text-red-500 py-4">
+                  {error===null?(<td colSpan="6" className="text-center text-red-500 py-4">
                     No users found.
-                  </td>
+                  </td>):""}
                 </tr>
               )}
             </tbody>
