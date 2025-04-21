@@ -6,21 +6,20 @@ const HeroSection = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [users, setUsers] = useState([]);
 
+  //UseEffect using with axios library to fetch the data from the api make easier.
   useEffect(() => {
     axios
       .get("https://jsonplaceholder.typicode.com/users")
       .then((res) => setUsers(res.data))
       .catch((err) => console.error("Error to Fetch the Details: " + err));
   }, []);
-
-  // Filter users by name
+  // filter user by name first we take user array then using filter method converting name in lower case and then using include method we checking for the character or string is present in any name
   const filteredUsers = users.filter((user) =>
     user.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
     <div className="font-outfit">
-      {/* Search Section */}
       <div className="container mx-auto px-4 py-4 sm:py-8">
         <div className="max-w-2xl mx-auto w-full">
           <div className="relative">
@@ -39,7 +38,6 @@ const HeroSection = () => {
         </div>
       </div>
 
-      {/* User Table Section */}
       <div className="container mx-auto px-2 sm:px-4 py-4 sm:py-8">
         <div className="border rounded-xl shadow-sm overflow-x-auto">
           <table className="min-w-full divide-y divide-gray-200 text-xs sm:text-sm">
@@ -58,10 +56,16 @@ const HeroSection = () => {
                 filteredUsers.map((user) => (
                   <tr key={user.id} className="hover:bg-gray-50 transition">
                     <td className="px-2 sm:px-4 py-2 sm:py-3">{user.id}</td>
-                    <td className="px-2 sm:px-4 py-2 sm:py-3 font-medium">{user.name}</td>
-                    <td className="px-2 sm:px-4 py-2 sm:py-3 text-blue-600">{user.email}</td>
+                    <td className="px-2 sm:px-4 py-2 sm:py-3 font-medium">
+                      {user.name}
+                    </td>
+                    <td className="px-2 sm:px-4 py-2 sm:py-3 text-blue-600">
+                      {user.email}
+                    </td>
                     <td className="px-2 sm:px-4 py-2 sm:py-3">{user.phone}</td>
-                    <td className="px-2 sm:px-4 py-2 sm:py-3">{user.company.name}</td>
+                    <td className="px-2 sm:px-4 py-2 sm:py-3">
+                      {user.company.name}
+                    </td>
                     <td className="px-2 sm:px-4 py-2 sm:py-3 text-blue-500 underline cursor-pointer">
                       {user.website}
                     </td>
@@ -83,4 +87,3 @@ const HeroSection = () => {
 };
 
 export default HeroSection;
-

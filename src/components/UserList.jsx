@@ -14,10 +14,11 @@ const UserList = () => {
       .catch((err) => console.error("Failed to fetch users", err));
   }, []);
 
+  //Same for card logic but use and taken all details like first
+  //taking all user from api and filter and checkig search input box char or string in the name of all users then filter and return and we are 
+  // passing this filteruser to UserCard component as a props and then it displaying the user 
   const filteredUsers = users.filter((user) =>
-    user.name
-      .toLowerCase()
-      .includes(searchTerm.toLowerCase())
+    user.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
