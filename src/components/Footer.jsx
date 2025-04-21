@@ -7,7 +7,7 @@ const Footer = () => {
       <div className="container mx-auto px-4 py-8 flex flex-col items-center text-center gap-3">
         <h2 className="text-lg font-semibold">Soheb Khan</h2>
         <p className="text-sm">📧 sohebkhan3145@gmail.com</p>
-        <p className="text-sm">📱 +91 98765 43210</p>
+        <p className="text-sm">📱 +91 93244 58770</p>
         <a
           href="https://lively-paletas-1868df.netlify.app/"
           className="text-blue-600 underline text-sm"
